@@ -1,0 +1,179 @@
+/* font-family: 'Poppins', sans-serif; */
+/* font-family: 'Quattrocento', serif; */
+/* font-family: 'Scope One', serif; */
+/* font-family: 'Quattrocento Sans', sans-serif; */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    z-index: 450;
+    width: 100%;
+    height: 65px;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+body {
+    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+h1 {
+    width: 100%;
+    text-align: center;
+    color: #284b63;
+    font-family: 'Quattrocento', serif;
+    font-weight: 700;
+}
+
+h2, h3 {
+    font-family: 'Quattrocento', serif;
+    color: #284b63;
+    padding: 15px 0 10px;
+}
+
+#maposition {
+    position: absolute;
+    z-index: 450;
+    left: 10px;
+    bottom: 105px;
+    background-color: #fff;
+    border: #BBC0BF 2px solid;
+    border-radius: 5px;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#maposition img {
+    width: 35px;
+    filter: opacity(65%);
+}
+
+#informations {
+    margin: 15px;
+    border: 3px ridge #e3d5ca;
+    padding: 10px;
+}
+
+#informations p {
+    font-family: 'Poppins', sans-serif;
+    text-align: justify;
+}
+
+#lien_repertoire {
+    padding-top: 15px;
+    font-style: italic;
+}
+
+#description {
+    padding-bottom: 5px;
+}
+
+a {
+    color: #284b63;
+}
+
+a:hover {
+    color: #e3d5ca;
+}
+
+#macarte {
+    height: 800px;
+    width: 100%;
+    position: relative;
+}
+
+#legende {
+    position: absolute;
+    z-index: 450;
+    bottom: 30px;
+    right: 30px;
+    background-color: #fff;
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: #BBC0BF 2px solid;
+    border-radius: 5px;
+}
+
+#legende h3 {
+    font-size: 20px;
+    text-align: center;
+    text-decoration: underline;
+    padding: 0 0 10px;
+}
+
+#legende p {
+    font-family: 'Poppins', sans-serif;
+    padding-bottom: 5px;
+    font-size: 14px;
+}
+
+#legende ol {
+    list-style-type: none;
+}
+
+#legende ol li {
+    position: relative;
+    margin-left: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    padding: 2px 0;
+}
+
+#legende ol li::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    left: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#legende ol li:first-child::before {
+    background: #218380;
+}
+
+#legende ol li:nth-child(2)::before {
+    background: #8FB339;
+}
+
+#legende ol li:nth-child(3)::before {
+    background: #FAA307;
+}
+
+#legende ol li:nth-child(4)::before {
+    background: #EF233C;
+}
+
+#legende ol li:last-child::before {
+    background: #8F2D56;
+}
+
+footer {
+    font-family: 'Scope One', serif;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
