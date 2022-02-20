@@ -7,18 +7,17 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Quattrocento+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Quattrocento:wght@400;700&family=Scope+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300;1,400;1,500&family=Quattrocento:wght@400;700&display=swap" rel="stylesheet">
     <!-- Leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
     <!-- Geocoder -->
     <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@3.0.0/dist/esri-leaflet-geocoder.css">
     <!-- MarkerCluster -->
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.5.0/dist/MarkerCluster.Default.css" integrity="sha512-6ZCLMiYwTeli2rVh3XAPxy3YoR5fVxGdH/pz+KMCzRY2M65Emgkw00Yqmhh8qLGeYQ3LbVZGdmOX9KUjSKr0TA==" crossorigin="">
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.5.0/dist/MarkerCluster.css" integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg==" crossorigin="">
-    
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.5.0/dist/MarkerCluster.css" integrity="sha512-mQ77VzAakzdpWdgfL/lM1ksNy89uFgibRQANsNneSTMD/bj0Y/8+94XMwYhnbzx8eki2hrbPpDm0vD0CiT2lcg==" crossorigin="">   
     <!-- Mes styles -->
     <link rel="stylesheet" href="assets/styles/styles.css">
-    <title>Document</title>
+    <title>Carte du patrimoine Québécois</title>
 </head>
 <body>
     <header>
@@ -26,12 +25,34 @@
     </header>
     <main>
         <div id="macarte">
-            <button id="maposition" aria-label="Trouver ma position"><img src="assets/img/gps.png" alt="Trouver ma position" aria-hidden="true"></button>
+            <button id="maposition" type="button" aria-label="Trouver ma position"><img src="assets/img/gps.png" alt="Trouver ma position" aria-hidden="true"></button>
+            <div id="requete">
+                <label for="region">Région administrative :</label>
+                <select name="region" id="region">
+                    <option value="1=1">Toutes</option>
+                    <option value="no_region_admin=1">Bas-Saint-Laurent</option>
+                    <option value="no_region_admin=2">Saguenay-Lac-Saint-Jean</option>
+                    <option value="no_region_admin=3">Capitale-Nationale</option>
+                    <option value="no_region_admin=4">Mauricie</option>
+                    <option value="no_region_admin=5">Estrie</option>
+                    <option value="no_region_admin=6">Montréal</option>
+                    <option value="no_region_admin=7">Outaouais</option>
+                    <option value="no_region_admin=8">Abitibi-Témiscamingue</option>
+                    <option value="no_region_admin=9">Côte-Nord</option>
+                    <option value="no_region_admin=10">Nord-du-Québec</option>
+                    <option value="no_region_admin=11">Gaspésie-Îles-de-la-Madeleine</option>
+                    <option value="no_region_admin=12">Chaudière-Appalaches</option>
+                    <option value="no_region_admin=13">Laval</option>
+                    <option value="no_region_admin=14">Lanaudière</option>
+                    <option value="no_region_admin=15">Laurentides</option>
+                    <option value="no_region_admin=16">Montérégie</option>
+                    <option value="no_region_admin=17">Centre-du-Québec</option>
+                </select>
+            </div>
             <div id="legende">
                 <div>
                     <h3>Légende</h3>
-                    <p>Date d'obtention du <br>
-                        status patriomonial :</p>
+                    <p>Date d'obtention du <br>statut patriomonial :</p>
                     <ol>
                         <li>Avant 1950</li>
                         <li>1950 à 1970</li>
@@ -51,7 +72,7 @@
             <p id="lien_repertoire"></p>
         </div>
     </main>
-    <footer><p>&copy Sabrina Sylvestre | 2022</p></footer>
+    <footer><p>&copy; Sabrina Sylvestre | 2022</p></footer>
     <!-- Leaflet -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <!-- Esri -->
@@ -62,7 +83,6 @@
     <!-- MarkerCluster -->
     <script src="https://unpkg.com/leaflet.markercluster@1.5.0/dist/leaflet.markercluster.js" integrity="sha512-pWPELjRaw2ZdoT0PDi7iRpRlk1XX3rtnfejJ/HwskyojpHei+9hKpwdphC4yssNt4FM0TjMQOmMrk6ZYSn274w==" crossorigin=""></script>
     <script src="https://unpkg.com/esri-leaflet-cluster@2.1.0/dist/esri-leaflet-cluster.js" integrity="sha512-fEdNFHisleVtEYdLhW4Z2RsR7TN6hLutE/+O4D+skfTNY2rlHm8HOZARPWkdrFFy/+i2KjFxcZAKTUWaVfbV0g==" crossorigin=""></script>
-    
     <!-- Mes scripts -->
     <script src="assets/scripts/cleAPI.js"></script>
     <script src="assets/scripts/script.js"></script>

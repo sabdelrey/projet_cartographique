@@ -6,17 +6,11 @@ const maCarte = L.map('macarte', {
 }).setView([54, -70], 5);
 
 // ---------- Icônes ------------
-const pinIcon = L.icon({
-    iconUrl: '../../src/assets/img/pin.png',
-    iconSize: [36, 36],
-    iconAnchor: [18, 36],
-    popupAnchor: [0, -30]
-});
-
 const positionIcon = L.icon({
     iconUrl: '../../src/assets/img/position.png',
     iconSize: [40, 40],
     iconAnchor: [20, 20],
+    className: 'position-icon'
 });
 
 const pinBleueIcon = L.icon({
@@ -73,9 +67,9 @@ let getPosition = () => {
     } else {
         alert = "Votre navigateur ne prend pas en charge la géolocalisation.";
     }
-}
+};
 
-let affichePosition = (position) => {
+let affichePosition = () => {
     maCarte.locate({ setView: true });
 
     maCarte.on('locationfound', (e) => {
@@ -84,15 +78,43 @@ let affichePosition = (position) => {
             fillOpacity: 0.6,
             radius: e.accuracy
         }).addTo(maCarte);
+
+        // --------- Météo -------------
+        const urlMeteo = `http://api.openweathermap.org/data/2.5/weather?lat=${e.latlng.lat}&lon=${e.latlng.lng}&units=metric&lang=fr&appid=${cleMeteo}`;
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState == 4 && this.status == 200) {
+                let fichierJSON = JSON.parse(xhttp.responseText);
+                afficheMeteo({
+                    temperature: fichierJSON.main.temp,
+                    description: fichierJSON.weather[0].description,
+                    urlIcon: `http://openweathermap.org/img/w/${fichierJSON.weather[0].icon}.png`, 
+                    coords: fichierJSON.coord
+                });
+            }
+        };
+        xhttp.open("GET", urlMeteo);
+        xhttp.send();
+
+        function afficheMeteo(objMeteo) {
+            let centre = L.latLng(objMeteo.coords.lat, objMeteo.coords.lon);
+            L.marker(centre, {
+                icon: L.divIcon({
+                    className: 'meteo',
+                    html: `<div><img src="${objMeteo.urlIcon}" title="${objMeteo.description}"><p>${Math.round(objMeteo.temperature)} &deg;C</p></div>`})
+            }).addTo(maCarte);
+        }
     });
+
     maCarte.flyTo([lat, long], 15);
-}
+};
 
-let afficheErreur = (erreur) => {
+let afficheErreur = () => {
     alert = "Nous n'avons pas réussi à trouver votre position.";
-}
+};
 
-maPosition.addEventListener('click', getPosition);
+maPosition.addEventListener('click', getPosition, {once: true});
 
 // -------------------- Couches de données -----------------
 
@@ -101,7 +123,6 @@ const urlImmeubles = "https://services6.arcgis.com/pG4MNR4EC4WmfCRT/ArcGIS/rest/
 const urlSites = "https://services6.arcgis.com/pG4MNR4EC4WmfCRT/ArcGIS/rest/services/donneesouvertesmccspclv7/FeatureServer/0";
 
 // Couches
-// 1920 et 1950 - 2010
 const coucheImmeubles = L.esri.Cluster.featureLayer({
     url: urlImmeubles,
     pointToLayer: (feature, latlng) => {
@@ -122,22 +143,21 @@ const coucheImmeubles = L.esri.Cluster.featureLayer({
     }    
 }).addTo(maCarte);
 
-// 1970 - 2010
 const coucheSites = L.esri.featureLayer({
     url: urlSites,
     style: (feature) => {
         let annee = new Date(feature.properties.date_attribution_stat_jurid_pri).getFullYear();
         let couleur;
         if(annee < 1950) {
-            couleur = "#218380" 
+            couleur = "#218380";
         } else if(annee >= 1950 && annee < 1970) {
-            couleur = "#8FB339" 
+            couleur = "#8FB339"; 
         } else if(annee >= 1970 && annee < 1990) {
-            couleur = "#FAA307" 
+            couleur = "#FAA307";
         } else if(annee >= 1990 && annee < 2010) {
-            couleur = "#EF233C" 
+            couleur = "#EF233C"; 
         } else if(annee > 2010) {
-            couleur = "#8F2D56" 
+            couleur = "#8F2D56"; 
         }
         return { color: couleur, fillOpacity: 0.4, weight: 2 };
     }
@@ -152,7 +172,7 @@ coucheSites.bindPopup((layer) => {
     return layer.feature.properties.nom_bien;
 });
 
-// Boite d'infos
+// ------------- Boite d'infos --------------
 const titre = document.querySelector("#titre_boite_info");
 const description = document.querySelector("#description");
 const synthese = document.querySelector("#synthese");
@@ -197,7 +217,7 @@ let fondsDeCarte = {
 let couches = {
     "Immeubles patrimoniaux": coucheImmeubles,
     "Sites patrimoniaux": coucheSites
-}
+};
 
 L.control.layers(fondsDeCarte, couches).addTo(maCarte);
 
@@ -232,7 +252,7 @@ const barreDeRecherche = L.esri.Geocoding.geosearch({
 }).addTo(maCarte);
 
 barreDeRecherche.on("results", (data) => {
-    for(let i=0; i<data.results.length; i++){
+    for(let i = 0; i < data.results.length; i++) {
         couchePoints.clearLayers();
         let marqueur = L.marker(data.results[i].latlng);
         let textePopUp = '';
@@ -244,4 +264,12 @@ barreDeRecherche.on("results", (data) => {
         marqueur.bindPopup(textePopUp);
         marqueur.addTo(couchePoints);
     }
+});
+
+// -------------- Requête ----------------
+const requete = document.querySelector('#region');
+
+requete.addEventListener('change', () => {
+    coucheImmeubles.setWhere(requete.value);
+    coucheSites.setWhere(requete.value);
 });

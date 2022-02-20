@@ -1,8 +1,3 @@
-/* font-family: 'Poppins', sans-serif; */
-/* font-family: 'Quattrocento', serif; */
-/* font-family: 'Scope One', serif; */
-/* font-family: 'Quattrocento Sans', sans-serif; */
-
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +9,7 @@ html {
 }
 
 header {
+    background-color: rgba(255, 255, 255, 0.75);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,8 +17,7 @@ header {
     top: 0;
     z-index: 450;
     width: 100%;
-    height: 65px;
-    background-color: rgba(255, 255, 255, 0.75);
+    height: 80px;
 }
 
 body {
@@ -32,17 +27,40 @@ body {
 }
 
 h1 {
-    width: 100%;
-    text-align: center;
     color: #284b63;
     font-family: 'Quattrocento', serif;
     font-weight: 700;
+    text-align: center;
+    width: 70%;
 }
 
 h2, h3 {
-    font-family: 'Quattrocento', serif;
     color: #284b63;
+    font-family: 'Quattrocento', serif;
     padding: 15px 0 10px;
+}
+
+.leaflet-control-layers-expanded {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.leaflet-control-layers {
+    margin: 17px 10px 0 0 !important;
+}
+
+.geocoder-control-input {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    margin-top: 12px;
+}
+
+.leaflet-popup-content-wrapper {
+    box-shadow: 2px 2px 5px rgba(40, 75, 99, 0.8);
+}
+
+.leaflet-popup-content {
+    font-family: 'Poppins', sans-serif;
 }
 
 #maposition {
@@ -51,8 +69,8 @@ h2, h3 {
     left: 10px;
     bottom: 105px;
     background-color: #fff;
-    border: #BBC0BF 2px solid;
-    border-radius: 5px;
+    border: 2px solid rgba(0, 0, 0 , 0.3);
+    border-radius: 4px;
     width: 45px;
     height: 45px;
     display: flex;
@@ -63,7 +81,39 @@ h2, h3 {
 
 #maposition img {
     width: 35px;
-    filter: opacity(65%);
+    filter: opacity(70%);
+}
+
+.position-icon {
+    position: relative;
+    z-index: 9999 !important;
+    pointer-events: none;
+    cursor: default;
+}
+
+.meteo {
+    position: relative;
+    z-index: 9999 !important;
+    top: 20px;
+    left: -32px;
+    display: flex;
+    flex-direction: column;
+    pointer-events: none;
+    cursor: default;
+}
+
+.meteo div {
+    width: 70px;
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+.meteo p {
+    transform: translateY(-5px);
 }
 
 #informations {
@@ -98,6 +148,35 @@ a:hover {
     height: 800px;
     width: 100%;
     position: relative;
+}
+
+#requete {
+    position: absolute;
+    z-index: 450;
+    background-color: #fff;
+    top: 90px;
+    left: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border: 2px solid rgba(0, 0, 0 , 0.2);
+    border-radius: 4px;
+}
+
+#requete label {
+    font-family: 'Quattrocento', serif;
+    font-size: 18px;
+    color: #284b63;
+    font-weight: bold;
+}
+
+#requete select {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    margin-top: 5px;
+    border: 1px solid #284b63;
+    border-radius: 2px;
+    cursor: pointer;
 }
 
 #legende {
@@ -170,10 +249,9 @@ a:hover {
 }
 
 footer {
-    font-family: 'Scope One', serif;
-    padding: 15px;
+    font-family: 'Quattrocento', serif;
+    padding-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-
